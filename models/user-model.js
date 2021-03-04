@@ -38,8 +38,13 @@ const userSchema = mongoose.Schema({
 userSchema.methods.generateToken = async function(expiresIn="30m"){
     const user = this
     const obj = {id:user._id, position:user.position, role:user.role, rights: user.rights}
-    const token = await jwt.sign(obj,process.env.JWT_SECRET,{expiresIn:expiresIn})
+    const token = jwt.sign(obj,process.env.JWT_SECRET,{expiresIn:expiresIn})
+    console.log('Token:', token);
     return token
+    // jwt.sign(obj, process.env.JWT_SECRET, {expiresIn: expiresIn}).then(token=>{
+    //     console.log('Token:', token);
+    //     return token
+    // })
 }
 
 userSchema.methods.checkPassword = async function(password){
@@ -51,16 +56,20 @@ userSchema.methods.checkPassword = async function(password){
 userSchema.pre('save', async function(next){
     const user = this
     if (user.isModified('password')){
-        const salt = await bcrypt.genSalt(16)
-        const hash = await bcrypt.hash(user.password, salt)
-        user.password = hash
+        // const salt = await bcrypt.genSalt(16)
+        // const hash = await bcrypt.hash(user.password, salt)
+        // user.password = hash
+        bcrypt.genSalt(16).then(salt=>{
+            bcrypt.hash(user.password, salt).then(hash=>{
+                user.password = hash
+            })
+        })
     }
     next()
 })
 
 userSchema.statics.checkEmail = async function(email){
     const user = await this.findOne({email:email})
-    console.log('User:', user, !user, !!user);
     return !!user
 }
 
