@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
     email:{
         type:String,
         required: true,
+        unique: true,
         trim: true,
         lowercase: true,
         validate: function(value){
@@ -21,6 +22,7 @@ const userSchema = mongoose.Schema({
         trim:true,
     },
     role:{
+        type:String,
         enum: ['user','admin'],
         default: 'user',
     },
@@ -33,14 +35,14 @@ const userSchema = mongoose.Schema({
     }
 })
 
-userSchema.methods.generateToken = (expiresIn="30m") => {
+userSchema.methods.generateToken = async function(expiresIn="30m"){
     const user = this
-    const obj = {id:user._is,position:user.position, role:user.role}
-    const token = await jwt.sign(obj,process.env.JWT_TOKEN,{expiresIn:expiresIn})
+    const obj = {id:user._id, position:user.position, role:user.role, rights: user.rights}
+    const token = await jwt.sign(obj,process.env.JWT_SECRET,{expiresIn:expiresIn})
     return token
 }
 
-userSchema.methods.checkPassword = async (password) => {
+userSchema.methods.checkPassword = async function(password){
     const user = this
     const match = await bcrypt.compare(password, user.password)
     return match;
@@ -56,9 +58,10 @@ userSchema.pre('save', async function(next){
     next()
 })
 
-userSchema.statics.checkEmail = async (email) => {
+userSchema.statics.checkEmail = async function(email){
     const user = await this.findOne({email:email})
-    return !user
+    console.log('User:', user, !user, !!user);
+    return !!user
 }
 
 const User = mongoose.model('User',userSchema)
