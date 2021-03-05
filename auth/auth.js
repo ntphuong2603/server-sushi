@@ -8,7 +8,7 @@ exports.checkToken = (req, res, next) => {
         const token = req.headers[process.env.TOKEN_NAME]
         if (token){
             const obj = jwt.verify(token,process.env.JWT_SECRET)
-            console.log('Obj:',obj, Date.now() <= obj.exp*1000);
+            // console.log('Obj:',obj, Date.now() <= obj.exp*1000);
             if (obj){
                 res.locals.userData = obj
             }

@@ -25,7 +25,7 @@ exports.userLogin = async (req, res) => {
     try{
         console.log('Body:', req.body);
         User.findOne({ email: req.body.email }).then(user=>{
-            console.log('User:', user);
+            // console.log('User:', user);
             if (!user){
                 return resFunctions.resError(res, 400, "Email doesn't exist")
             }
@@ -33,7 +33,7 @@ exports.userLogin = async (req, res) => {
                 if (!isCorrectPassword){
                     return resFunctions.resError(res,400, "Password is incorrect")
                 }
-                user.generateToken(req.body.getToken ? "1d": "1h").then(token=>{
+                user.generateToken(req.body.getToken ? "1d": "30m").then(token=>{
                     // console.log('Token', token);
                     return resFunctions.resSuccess(res, 200, "User successfully logged in", getUserInfo(user, token))
                 })
@@ -46,6 +46,7 @@ exports.userLogin = async (req, res) => {
 
 exports.userAuthenticate = async (req, res) => {
     try{
+        // console.log('Request user:', req);
         if (req.user){
             return resFunctions.resSuccess(res,200,"Use authenticated", getUserInfo(req.user))
             // res.status(200).json({success:true, msg:"Use authenticated", data:getUserInfo(req.user)})

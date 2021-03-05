@@ -10,7 +10,7 @@ const menuSchema = mongoose.Schema({
     code:{
         type:String,
         trim:true,
-        upperCase:true,
+        uppercase:true,
         required: true,
         unique: true,
     },
@@ -25,7 +25,7 @@ const menuSchema = mongoose.Schema({
         default: Date.now()
     },
     createBy:{
-        type:String,
+        type:mongoose.Types.ObjectId,
         required:true,
     },
     updateAt:{
@@ -33,7 +33,7 @@ const menuSchema = mongoose.Schema({
         default: null,
     },
     updateBy:{
-        type: String,
+        type: mongoose.Types.ObjectId,
         default: null,
     },
     price:{

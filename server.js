@@ -30,3 +30,6 @@ server.use(checkToken)
 
 const userApi = require('./api/user-api')
 server.use('/api/users', userApi)
+
+const menuApi = require('./api/menu-api')
+server.use('/api/menus', menuApi)

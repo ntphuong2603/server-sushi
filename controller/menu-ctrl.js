@@ -6,14 +6,17 @@ require('dotenv').config()
 
 exports.createMenu = async (req, res) => {
     try{
-        if (await Menu.checkCode(req.body.code)){
+        if (await Menu.checkMenuCode(req.body.code)){
             return resFunctions.resError(res, 400, 'Menu code already existed!')
         }
         const menu = new Menu({
             name:req.body.name,
-            code:req.body.code
+            code:req.body.code,
+            price:req.body.price,
+            createBy:req.body.userID,
         })
-        const doc = menu.save()
+
+        const doc = await menu.save()
 
         return resFunctions.resSuccess(res, 200, 'Menu created successfully',doc)
     } catch (error){
@@ -40,6 +43,16 @@ exports.updateMenu = async (req, res) => {
 exports.deleteMenu = async (req, res) => {
     try{
         
+    } catch (error){
+        console.log(error);
+        res.status(401).json({error:true, msg:"User does not authenticate"})
+    }
+}
+
+exports.readAll = async (req, res) => {
+    try{
+        const menus = await Menu.find()
+        return resFunctions.resSuccess(res, 200, null, menus)
     } catch (error){
         console.log(error);
         res.status(401).json({error:true, msg:"User does not authenticate"})
