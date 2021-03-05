@@ -1,6 +1,5 @@
 const { User } = require('../models/user-model')
 const resFunctions = require('../utils/res')
-// const { checkUser } = require('../auth/auth')
 
 require('dotenv').config()
 

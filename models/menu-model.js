@@ -17,6 +17,9 @@ const menuSchema = mongoose.Schema({
     description:{
         type:String,
     },
+    image:{
+        type:String,
+    },
     createAt:{
         type: Date,
         default: Date.now()
@@ -36,8 +39,22 @@ const menuSchema = mongoose.Schema({
     price:{
         type: Number,
         required: true,
+    },
+    isActive:{
+        type:Boolean,
+        default: true,
+    },
+    station:{
+        type:String,
+        enum:['sushi-bar','kitchen','both'],
+        default: 'kitchen',
     }
 })
+
+menuSchema.statics.checkMenuCode = async function(code){
+    const menu = await this.findOne({code:code})
+    return !!menu    
+}
 
 const Menu = mongoose.model('Menu',menuSchema)
 
