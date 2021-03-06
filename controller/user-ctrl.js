@@ -23,9 +23,7 @@ exports.userRegister = async (req, res) => {
 
 exports.userLogin = async (req, res) => {
     try{
-        // console.log('Body:', req.body);
         User.findOne({ email: req.body.email }).then(user=>{
-            // console.log('User:', user);
             if (!user){
                 return resFunctions.resError(res, 400, "Email doesn't exist")
             }
@@ -34,9 +32,6 @@ exports.userLogin = async (req, res) => {
                     return resFunctions.resError(res,400, "Password is incorrect")
                 }
                 user.generateToken(req.body.getToken ? "1d": "30m").then(token=>{
-                    // console.log('Token', token);
-                    // res.setHeader("Access-Control-Allow-Credentials",true)
-                    // res.cookie('myToken',token).status(200).json({success: true, msg: "User successfully logged in", data: getUserInfo(user,token)})
                     res.cookie(process.env.TOKEN_NAME, token)
                     return resFunctions.resSuccess(res, 200, "User successfully logged in", getUserInfo(user, token))
                 })
@@ -49,13 +44,10 @@ exports.userLogin = async (req, res) => {
 
 exports.userAuthenticate = async (req, res) => {
     try{
-        // console.log('Request user:', req);
         if (req.user){
             return resFunctions.resSuccess(res,200,"Use authenticated", getUserInfo(req.user))
-            // res.status(200).json({success:true, msg:"Use authenticated", data:getUserInfo(req.user)})
         }
         return resFunctions.resError(res, 401, "Use unauthenticated")
-        // res.status(200).json({success:true, msg:"Use authenticated", data:getUserInfo(req.user)})
     } catch (error){
         console.log(error);
         res.status(401).json({error:true, msg:"User does not authenticate"})

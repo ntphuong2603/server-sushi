@@ -12,7 +12,7 @@ exports.createMenu = async (req, res) => {
         const menu = new Menu({
             name:req.body.name,
             code:req.body.code,
-            price:req.body.price,
+            price:parseFloat(req.body.price),
             createBy:req.body.userID,
         })
 
