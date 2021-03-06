@@ -26,8 +26,7 @@ mongoose.connect(dbConnectionString, {
     useFindAndModify: true,
 })
 
-const { checkToken, setHeaders } = require('./auth/auth')
-// server.use(setHeaders)
+const { checkToken } = require('./auth/auth')
 server.use(checkToken)
 
 const userApi = require('./api/user-api')
@@ -35,3 +34,6 @@ server.use('/api/users', userApi)
 
 const menuApi = require('./api/menu-api')
 server.use('/api/menus', menuApi)
+
+const categoryApi = require('./api/category-api')
+server.use('/api/categories', categoryApi)

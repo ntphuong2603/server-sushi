@@ -48,6 +48,10 @@ const menuSchema = mongoose.Schema({
         type:String,
         enum:['sushi-bar','kitchen','both'],
         default: 'kitchen',
+    },
+    category:{
+        type: mongoose.Types.ObjectId,
+        require: true,
     }
 })
 
