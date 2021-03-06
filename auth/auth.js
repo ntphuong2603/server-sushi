@@ -35,3 +35,21 @@ exports.checkUser = async(req, res, next) => {
         next()
     }
 }
+
+exports.setHeaders = (req, res, next) => {
+    // res.setHeader({
+    //     // Website you wish to allow to connect
+    //     "Access-Control-Allow-Origin":"*",
+    //     // Request methods you wish to allow
+    //     "Access-Control-Allow-Methods":"GET,POST",
+    //     // Request headers you wish to allow
+    //     // "Access-Control-Allow-Headers":"Content-type,*",
+    //     // Set to true if you need the website to include cookies in the requests sent
+    //     // to the API (e.g. in case you use sessions)
+    //     "Access-Control-Allow-Credentials":true,
+    // })
+    res.setHeader("Access-Control-Allow-Origin","http://localhost:3000")
+    res.setHeader("Access-Control-Allow-Methods","GET,POST")
+    res.setHeader("Access-Control-Allow-Credentials",true)
+    next()
+}

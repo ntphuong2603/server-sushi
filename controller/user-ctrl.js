@@ -23,7 +23,7 @@ exports.userRegister = async (req, res) => {
 
 exports.userLogin = async (req, res) => {
     try{
-        console.log('Body:', req.body);
+        // console.log('Body:', req.body);
         User.findOne({ email: req.body.email }).then(user=>{
             // console.log('User:', user);
             if (!user){
@@ -35,6 +35,9 @@ exports.userLogin = async (req, res) => {
                 }
                 user.generateToken(req.body.getToken ? "1d": "30m").then(token=>{
                     // console.log('Token', token);
+                    // res.setHeader("Access-Control-Allow-Credentials",true)
+                    // res.cookie('myToken',token).status(200).json({success: true, msg: "User successfully logged in", data: getUserInfo(user,token)})
+                    res.cookie(process.env.TOKEN_NAME, token)
                     return resFunctions.resSuccess(res, 200, "User successfully logged in", getUserInfo(user, token))
                 })
             })

@@ -6,7 +6,8 @@ require('dotenv').config()
 
 const server = express()
 server.use(bodyParser.json())
-server.use(cors());
+// server.use(cors())
+server.use(cors({origin:"http://localhost:3000", credentials: true}));
 
 const port = process.env.PORT || 5000
 
@@ -25,7 +26,8 @@ mongoose.connect(dbConnectionString, {
     useFindAndModify: true,
 })
 
-const { checkToken } = require('./auth/auth')
+const { checkToken, setHeaders } = require('./auth/auth')
+// server.use(setHeaders)
 server.use(checkToken)
 
 const userApi = require('./api/user-api')

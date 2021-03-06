@@ -1,5 +1,5 @@
 const express = require('express')
-const { checkUser } = require('../auth/auth')
+const { checkUser, setHeaders } = require('../auth/auth')
 const userController = require('../controller/user-ctrl')
 
 const router = express.Router()
