@@ -58,8 +58,8 @@ const getUserInfo = (user, token=null) => ({
     id: user._id,
     role: user.role,
     rights: user.rights,
-    token: token===null ? '' : {
-        name: process.env.TOKEN_NAME,
-        value: token
-    }
+    // token: token===null ? '' : {
+    //     name: process.env.TOKEN_NAME,
+    //     value: token
+    // }
 })
