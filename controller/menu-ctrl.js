@@ -52,9 +52,24 @@ exports.deleteMenu = async (req, res) => {
 exports.readAll = async (req, res) => {
     try{
         const menus = await Menu.find()
-        return resFunctions.resSuccess(res, 200, null, menus)
+        return resFunctions.resSuccess(res, 200, null, getAll(menus))
     } catch (error){
         console.log(error);
         res.status(401).json({error:true, msg:"User does not authenticate"})
     }
 }
+
+const getAll = (menus) => (
+    menus.map(menu=>(getMenuInfo(menu)))
+)
+
+const getMenuInfo = (menu) => ({
+    id:menu._id,
+    name:menu.name,
+    code:menu.code,
+    price:menu.price,
+    category:menu.category ? menu.category : 'test',
+    station:menu.station,
+    description:menu.description ? menu.description : 'test',
+    status:menu.isActive,
+})
