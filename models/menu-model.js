@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const { commonSchema } = require('./commonModel')
 
 const menuSchema = mongoose.Schema({
     name:{
@@ -18,31 +19,11 @@ const menuSchema = mongoose.Schema({
         type:String,
     },
     image:{
-        type:String,
-    },
-    createAt:{
-        type: Date,
-        default: Date.now()
-    },
-    createBy:{
         type:mongoose.Types.ObjectId,
-        required:true,
-    },
-    updateAt:{
-        type: Date,
-        default: null,
-    },
-    updateBy:{
-        type: mongoose.Types.ObjectId,
-        default: null,
     },
     price:{
         type: Number,
         required: true,
-    },
-    isActive:{
-        type:Boolean,
-        default: true,
     },
     station:{
         type:String,
@@ -52,7 +33,8 @@ const menuSchema = mongoose.Schema({
     category:{
         type: mongoose.Types.ObjectId,
         require: true,
-    }
+    },
+    ...commonSchema
 })
 
 menuSchema.statics.checkMenuCode = async function(code){

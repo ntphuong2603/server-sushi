@@ -26,13 +26,17 @@ const userSchema = mongoose.Schema({
         enum: ['user','admin'],
         default: 'user',
     },
+    rights: {
+        type:[String],
+    },
     createAt:{
         type: Date,
         default: Date.now(),
     },
-    rights: {
-        type:[String],
-    }
+    isActive:{
+        type:Boolean,
+        default:true,
+    },
 })
 
 userSchema.methods.generateToken = async function(expiresIn="30m"){

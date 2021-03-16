@@ -31,7 +31,7 @@ exports.userLogin = async (req, res) => {
                 if (!isCorrectPassword){
                     return resFunctions.resError(res,400, "Password is incorrect")
                 }
-                user.generateToken(req.body.getToken ? "1d": "30m").then(token=>{
+                user.generateToken(req.body.rememberMe ? "12h": "30m").then(token=>{
                     res.cookie(process.env.TOKEN_NAME, token)
                     return resFunctions.resSuccess(res, 200, "User successfully logged in", getUserInfo(user, token))
                 })

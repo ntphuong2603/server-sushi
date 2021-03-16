@@ -32,8 +32,12 @@ server.use(checkToken)
 const userApi = require('./api/user-api')
 server.use('/api/users', userApi)
 
+const categoryApi = require('./api/category-api')
+server.use('/api/categories', categoryApi)
+
 const menuApi = require('./api/menu-api')
 server.use('/api/menus', menuApi)
 
-const categoryApi = require('./api/category-api')
-server.use('/api/categories', categoryApi)
+const menuImageApi = require('./api/menuImage-api')
+server.use('/api/menuImage', menuImageApi)
+

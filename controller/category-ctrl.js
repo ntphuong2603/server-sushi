@@ -1,7 +1,7 @@
 const { Category } = require('../models/category-model')
 const resFunctions = require('../utils/res')
 
-exports.createCat = async (req, res) => {
+exports.createCategory = async (req, res) => {
     try{
         if (await Category.checkCategoryName(req.body.name)){
             return resFunctions.resError(res, 400, 'This category already existed.')
@@ -19,17 +19,28 @@ exports.createCat = async (req, res) => {
     }
 }
 
-exports.readAll = async (req, res) => {
+exports.getAllCategories = async (req, res) => {
     try{
-        const isActive = !req.body.isActive ? true : false
-        const cats = await Category.find({isActive})
+        // const isActive = !req.body.isActive ? true : false
+        const cats = await Category.find()
+        // console.log('Cats', cats);
         return resFunctions.resSuccess(res, 200, null, getAll(cats))
     } catch (error){
         res.status(401).json({error: true, msg: error})
     }
 }
 
-exports.readCat = async (req, res) => {
+exports.getCategoryByID = async (req, res) => {
+    try{
+        const _id = req.body.categoryID
+        const category = await Category.findById({_id})
+        return resFunctions.resSuccess(res, 200, null, getInfo(category))
+    } catch (error){
+        res.status(401).json({error: true, msg: error})
+    }
+}
+
+exports.changeCategoryName = async (req, res) => {
     try{
 
     } catch (error){
@@ -37,15 +48,7 @@ exports.readCat = async (req, res) => {
     }
 }
 
-exports.updateCat = async (req, res) => {
-    try{
-
-    } catch (error){
-        res.status(401).json({error: true, msg: error})
-    }
-}
-
-exports.deleteCat = async (req, res) => {
+exports.deleteCategory = async (req, res) => {
     try{
         const _id = req.body.catID
         const updateData = {

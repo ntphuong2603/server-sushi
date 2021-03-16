@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { commonSchema } = require('./commonModel')
 
 const categorySchema = mongoose.Schema({
     name:{
@@ -8,27 +9,11 @@ const categorySchema = mongoose.Schema({
         uniquie: true,
         required: true,
     },
-    createAt:{
-        type: Date,
-        default: Date.now()
-    },
-    createBy:{
-        type: mongoose.Types.ObjectId,
-        required: true,
-    },
-    updateAt:{
-        type: Date,
-    },
-    updateBy:{
-        type: mongoose.Types.ObjectId,
-    },
     sampleList: {
-        type: [mongoose.Types.ObjectId]
+        type: [mongoose.Types.ObjectId],
+        default:[]
     },
-    isActive: {
-        type: Boolean,
-        default: true,
-    }
+    ...commonSchema
 })
 
 categorySchema.statics.checkCategoryName = async function(categoryName){
